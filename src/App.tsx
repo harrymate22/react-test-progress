@@ -41,6 +41,8 @@ function App() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [selectedColor, setSelectedColor] = useState(PRESET_COLORS[0].value);
   const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [glowColor, setGlowColor] = useState<string>("");
+  const [zIndex, setZIndex] = useState<number>(9999);
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
@@ -75,6 +77,8 @@ function App() {
         color={selectedColor}
         height={4}
         showGlow={true}
+        glowColor={glowColor || undefined}
+        zIndex={zIndex}
       />
       
       <div style={{
@@ -337,6 +341,61 @@ function App() {
                   aria-label={`Select ${c.name} color`}
                 />
               ))}
+            </div>
+
+            {/* Advanced Settings */}
+            <div style={{
+              width: '100%',
+              display: 'flex',
+              gap: '1rem',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              marginBottom: '2.5rem',
+              padding: '1.5rem',
+              background: isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.02)',
+              borderRadius: '16px',
+              border: `1px solid ${border}`
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 600, color: textMuted }}>Custom Glow Color</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g #ff0000 or rgba(...)"
+                  value={glowColor}
+                  onChange={(e) => setGlowColor(e.target.value)}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    borderRadius: '8px',
+                    border: `1px solid ${border}`,
+                    background: isDark ? '#0f1115' : 'white',
+                    color: fg,
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                    width: '200px',
+                    fontFamily: 'inherit'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 600, color: textMuted }}>Z-Index</label>
+                <input 
+                  type="number" 
+                  value={zIndex}
+                  onChange={(e) => setZIndex(Number(e.target.value))}
+                  style={{
+                    padding: '0.75rem 1rem',
+                    borderRadius: '8px',
+                    border: `1px solid ${border}`,
+                    background: isDark ? '#0f1115' : 'white',
+                    color: fg,
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                    width: '120px',
+                    fontFamily: 'inherit'
+                  }}
+                />
+              </div>
             </div>
             
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '480px' }}>
